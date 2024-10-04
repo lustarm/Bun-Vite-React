@@ -8,5 +8,5 @@ data = {
     "email": "jacob@gmail.com"
 }
 
-r = requests.post("http://127.0.0.1:8000/v1/users", json=data)
+r = requests.post("http://127.0.0.1:8000/v1/register", json=data)
 print(r.text)
