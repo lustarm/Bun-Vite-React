@@ -12,7 +12,12 @@ import (
 
 const VERSION = "v1"
 
+var inviteCodes []string
+var usedInviteCodes []string
+
 func main() {
+    inviteCodes = append(inviteCodes, "lel")
+
 	// Actual router
 	router := mux.NewRouter()
 

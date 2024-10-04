@@ -1,16 +1,21 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 import { Card, CardTitle, CardHeader, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Navigate } from "react-router-dom"
 // import { Label } from '@/components/ui/label'
 
 
 const LoginForm = () => {
+    // Hooks
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
+    const navigate = useNavigate();
 
     const loginPostData = {
         username: username,
@@ -31,19 +36,23 @@ const LoginForm = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if(data.message === "Invalid username or password"){
+                if (data.message === "Invalid username or password") {
                     setError(true)
                     setErrorMessage(data.message)
                     return
                 }
                 localStorage.setItem("auth", data.message)
-                window.open("/")
+                location.reload()
             })
             .catch((error) => {
                 console.log(error)
                 setError(true)
                 setErrorMessage("Server error please try again later!")
             })
+    }
+
+    const ClickRegister = () => {
+        navigate("/register")
     }
 
     return (
@@ -55,9 +64,9 @@ const LoginForm = () => {
                     </CardTitle>
                     {
                         error === true &&
-                            <CardDescription className="font-semibold">
-                                {errorMessage}
-                            </CardDescription>
+                        <CardDescription className="font-semibold">
+                            {errorMessage}
+                        </CardDescription>
                     }
                 </CardHeader>
                 <CardContent className='grid gap-4'>
@@ -72,10 +81,14 @@ const LoginForm = () => {
                             placeholder='password' required />
                     </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="space-x-3">
                     <Button className='w-full'
                         onClick={ClickLogin}>
                         Sign in
+                    </Button>
+                    <Button className='w-full'
+                        onClick={ClickRegister}>
+                        Register
                     </Button>
                 </CardFooter>
             </Card>

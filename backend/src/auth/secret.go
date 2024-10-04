@@ -1,3 +1,3 @@
 package auth
 
-var Secret = []byte("test")
+var Secret = []byte("getfromenv!")

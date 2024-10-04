@@ -5,7 +5,7 @@ data = {
     # "id": "1",
     "username": "jacob",
     "password": "jacob123",
-    "email": "jacob@gmail.com"
+    "invite_code": "lel"
 }
 
 r = requests.post("http://127.0.0.1:8000/v1/register", json=data)
