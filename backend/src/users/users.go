@@ -13,6 +13,8 @@ import (
 var users []User
 var idCounter int
 
+var InviteCodes []string
+
 func ListUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
@@ -31,12 +33,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-    if newUser.InviteCode != inviteCodes[0] {
-        w.WriteHeader(http.StatusUnauthorized)
-        json.NewEncoder(w).Encode(map[string]string{"message": "Invalid invite token"})
-        return
-    }
-
 	/* == Check if user is already in DB == */
 	for _, user := range users {
 		if user.Username == newUser.Username {
@@ -46,8 +42,20 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Auto-increment the ID
-	// Will change later with DB
+    for i, code := range InviteCodes {
+        if newUser.InviteCode == code {
+            // remove the code from InviteCodes by slicing it out
+            InviteCodes = append(InviteCodes[:i], InviteCodes[i+1:]...)
+            break
+        } else {
+            w.WriteHeader(http.StatusUnauthorized)
+            json.NewEncoder(w).Encode(map[string]string{"message": "Invalid invite token"})
+            return
+        }
+    }
+
+    // Remove invite code used from invite codes
+
 	idCounter++
 	newUser.ID = strconv.Itoa(idCounter)
 	users = append(users, newUser)

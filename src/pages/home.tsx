@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import LoginForm from '@/components/LoginForm'
 import NavBar from '@/components/NavBar'
@@ -54,9 +56,10 @@ const Home = () => {
     }
 
     return (
-        <>
+        <div className='min-h-screen bg-zinc-950'>
             <NavBar />
-        </>
+            <h1 className='text-white'>hello</h1>
+        </div>
     )
 }
 
